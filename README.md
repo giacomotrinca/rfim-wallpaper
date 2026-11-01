@@ -102,12 +102,22 @@ rfim-wallpaper --colors blue,lime     # blend zones of two themes
 
 ## Simulation presets
 
-Named parameter recipes in [`presets.toml`](rfim_wallpaper/presets.toml):
+Six named recipes in [`presets.toml`](rfim_wallpaper/presets.toml), each targeting
+a distinct regime:
+
+| preset | mode | character |
+|--------|------|-----------|
+| `pulito`  | thermal   | clean Ising at T_c — critical fractal |
+| `fumo`    | thermal   | below T_c — large ordered domains (sparse) |
+| `torbido` | thermal   | above T_c — fine paramagnetic grain (dense) |
+| `braci`   | avalanche | coercive field — balanced crackling |
+| `isole`   | avalanche | asymmetric — minority "islands" |
+| `caos`    | avalanche | strong disorder — fragmented chaos |
 
 ```bash
 rfim-wallpaper --list-presets
-rfim-wallpaper --preset fumo          # sparse domains
-rfim-wallpaper --preset caos          # heavily fragmented
+rfim-wallpaper --preset fumo          # default: sparse
+rfim-wallpaper --preset caos          # fragmented
 ```
 
 Any flag overrides the preset: `--preset fumo --disorder 0.5 --sweeps 1000`.

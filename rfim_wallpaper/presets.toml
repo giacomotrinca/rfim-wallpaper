@@ -12,32 +12,46 @@
 #    sweeps      = Monte Carlo sweeps (thermal only).
 #    ramp_steps  = field-ramp steps (avalanche only).
 #    target_m    = target magnetization (avalanche only, 0 = coercive).
+#
+#  Each preset targets a distinct visual regime (wall density, symmetry).
 # ============================================================
 
+# Clean 2D Ising at T_c: scale-invariant critical fractal (~30% walls).
 [pulito]
 mode = "thermal"
 temperature = 2.269
 disorder = 0.0
 sweeps = 2000
 
+# Below T_c: large ordered domains, sparse walls (~5%). The default look.
 [fumo]
 mode = "thermal"
 temperature = 1.6
 disorder = 0.2
 sweeps = 2000
 
-[braci]
-mode = "avalanche"
-disorder = 1.25
-ramp_steps = 256
-target_m = 0.0
+# Above T_c: fine paramagnetic grain, very dense walls (~55%).
+[torbido]
+mode = "thermal"
+temperature = 2.8
+disorder = 0.3
+sweeps = 2000
 
-[crackle]
+# T=0 avalanches at the coercive field: balanced crackling (~22%).
+[braci]
 mode = "avalanche"
 disorder = 1.5
 ramp_steps = 256
 target_m = 0.0
 
+# Asymmetric stop: minority "islands" in a majority sea (~14%, m ≈ -0.3).
+[isole]
+mode = "avalanche"
+disorder = 1.25
+ramp_steps = 256
+target_m = -0.4
+
+# Strong disorder: heavily fragmented, salt-and-pepper chaos (~52%).
 [caos]
 mode = "avalanche"
 disorder = 3.0
