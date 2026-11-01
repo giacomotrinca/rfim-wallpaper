@@ -1,52 +1,68 @@
 # RFIM Wallpaper
 
 ```
- ╔════════════════════════════════════════════════════════════════╗
- ║                                                                ║
- ║    R F I M   W A L L P A P E R                                 ║
- ║                                                                ║
- ║    avalanches · crackling · critical phenomena                 ║
- ║    disordered systems on the GPU                               ║
- ║                                                                ║
- ╚════════════════════════════════════════════════════════════════╝
+ ____  _____ ___ __  __
+|  _ \|  ___|_ _|  \/  |
+| |_) | |_   | || |\/| |
+|  _ <|  _|  | || |  | |
+|_| \_\_|   |___|_|  |_|
 
-    ↑ ↓ ↑ ↓ ↑ ↓ ↑ ↓ ↑ ↓ ↑ ↓          ↑  ↑  ↓  ↓  ↑  ↓
-    ↓ ↑ ↓ ↑ ↓ ↑ ↓ ↑ ↓ ↑ ↓ ↑          spin configuration
-    ↑ ↓ ↑ ↑ ↓ ↓ ↑ ↓ ↑ ↑ ↓ ↓                ▼
-    ↓ ↑ ↓ ↓ ↑ ↑ ↓ ↑ ↓ ↓ ↑ ↑          a domain wall
+__        ___    _     _     ____   _    ____  _____ ____
+\ \      / / \  | |   | |   |  _ \ / \  |  _ \| ____|  _ \
+ \ \ /\ / / _ \ | |   | |   | |_) / _ \ | |_) |  _| | |_) |
+  \ V  V / ___ \| |___| |___|  __/ ___ \|  __/| |___|  _ <
+   \_/\_/_/   \_\_____|_____|_| /_/   \_\_|   |_____|_| \_\
 ```
 
-Turn statistical mechanics into desktop art. `rfim-wallpaper` simulates a
-**Random Field Ising Model** on the GPU (PyTorch/CUDA) and renders the resulting
-domain walls as fractal "ember" textures — quenched disorder, Barkhausen
-avalanches, crackling noise, and critical phenomena, at native resolution.
-
-## What it does
-
-Two dynamics, one Hamiltonian
+**Statistical mechanics as desktop art.** A GPU-accelerated
+[Random Field Ising Model](https://en.wikipedia.org/wiki/Random_field_Ising_model)
+that turns quenched disorder, Barkhausen avalanches and critical phenomena into
+fractal wallpapers — one spin per pixel, at native resolution.
 
 ```
-H = -J Σ_<ij> s_i s_j - Σ_i h_i s_i - H_ext Σ_i s_i ,   h_i ~ N(0, Δ)
+H = -J Σ s_i s_j  -  Σ h_i s_i  -  H_ext Σ s_i ,     h_i ~ N(0, Δ)
 ```
+
+## Gallery
+
+| Embers — thermal | Critical Ising (T_c) |
+|---|---|
+| ![embers-thermal](examples/embers-thermal.png) | ![synthwave-critical](examples/synthwave-critical.png) |
+
+| Avalanches (T = 0) | Asymmetric islands |
+|---|---|
+| ![matrix-avalanche](examples/matrix-avalanche.png) | ![cobalt-islands](examples/cobalt-islands.png) |
+
+| Two-color blend (`clouds`) | Hard zones (`zones`) |
+|---|---|
+| ![plasma-lime](examples/plasma-lime-clouds.png) | ![neon-cobalt](examples/neon-cobalt-zones.png) |
+
+## Two dynamics, one Hamiltonian
 
 | mode | physics | knobs |
 |------|---------|-------|
 | `avalanche` | **T = 0** field ramp → Barkhausen crackling. Spins start all-down and `H_ext` is ramped; each step relaxes to the unique ground state (Middleton *no-passing* theorem). The bursts of flips are the avalanches. | `--disorder`, `--ramp-steps`, `--target-m` |
-| `thermal` | **finite T** Metropolis Monte Carlo, vectorized on the checkerboard. `Δ=0`, `T=T_c≈2.269` reproduces the clean 2D Ising critical point; `Δ>0` pins and roughens the walls (Imry–Ma disorder in `d=2`). | `--temperature`, `--disorder`, `--field`, `--sweeps` |
+| `thermal` | **finite T** Metropolis Monte Carlo, vectorized on the checkerboard. `Δ = 0`, `T = T_c ≈ 2.269` reproduces the clean 2D Ising critical point; `Δ > 0` pins and roughens the walls (Imry–Ma disorder in `d = 2`). | `--temperature`, `--disorder`, `--field`, `--sweeps` |
 
-One spin = one pixel, so there is **no upscaling blur** — run it at native
-resolution up to 4K.
+## Features
+
+- **One spin = one pixel** — no upscaling blur, up to 4K.
+- **Two dynamics** — finite-temperature Monte Carlo and T = 0 avalanche ramps.
+- **14 color themes** with **spatial mixing** (`--colors a,b`).
+- **Named presets** spanning the phase diagram.
+- **Reproducible** — same seed, same image, even on GPU.
+- **Pure PyTorch/CUDA** pipeline: field generation, neighbor sums, relaxation, walls and blur all run as GPU tensors.
 
 ## Install
 
 ```bash
 conda create -n wallpaper python=3.12 -y
 conda activate wallpaper
-pip install torch --index-url https://download.pytorch.org/whl/cu126   # or the CUDA build for your driver
+pip install torch --index-url https://download.pytorch.org/whl/cu126   # match your driver
 pip install -e .
 ```
 
-Verify the GPU is detected:
+Verify the GPU:
 
 ```bash
 python -c "import torch; print(torch.cuda.is_available())"   # True
@@ -55,24 +71,14 @@ python -c "import torch; print(torch.cuda.is_available())"   # True
 ## Quickstart
 
 ```bash
-rfim-wallpaper --resolution fhd                          # default: embers, native-like, T=1.6
-rfim-wallpaper --preset pulito --resolution qhd          # clean Ising at T_c, 2K
-rfim-wallpaper --preset crackle                          # T=0 avalanches
-rfim-wallpaper --colors matrix                           # solid theme
-rfim-wallpaper --colors plasma,lime --mix clouds         # two-color zones
+rfim-wallpaper                                  # default: embers, sparse thermal
+rfim-wallpaper --preset pulito --resolution qhd # clean Ising at T_c, 2K
+rfim-wallpaper --preset caos                    # fragmented chaos
+rfim-wallpaper --colors matrix                  # solid theme
+rfim-wallpaper --colors plasma,lime --mix clouds
 ```
 
 Output: `~/rfim-wallpaper.png` (override with `--out`).
-
-## Gallery
-
-| Embers · thermal | Avalanche · matrix |
-|---|---|
-| ![braci-thermal](examples/braci-thermal.png) | ![matrix-avalanche](examples/matrix-avalanche.png) |
-
-| Two-color blend (`clouds`) | Hard zones (`zones`) |
-|---|---|
-| ![plasma-lime](examples/plasma-lime-clouds.png) | ![neon-cobalt](examples/neon-cobalt-zones.png) |
 
 ## Color themes
 
@@ -94,16 +100,16 @@ rfim-wallpaper --colors blue,lime     # blend zones of two themes
 
 | mode | look |
 |------|------|
-| `clouds` (default) | smooth organic zones |
+| `clouds` *(default)* | smooth organic zones |
 | `gradient` | diagonal blend |
 | `radial` | center vs. edges |
 | `angular` | around the center |
 | `zones` | hard Voronoi-like cells |
 
-## Simulation presets
+## Presets
 
-Six named recipes in [`presets.toml`](rfim_wallpaper/presets.toml), each targeting
-a distinct regime:
+Six recipes in [`presets.toml`](rfim_wallpaper/presets.toml), each a distinct
+regime:
 
 | preset | mode | character |
 |--------|------|-----------|
@@ -116,27 +122,13 @@ a distinct regime:
 
 ```bash
 rfim-wallpaper --list-presets
-rfim-wallpaper --preset fumo          # default: sparse
-rfim-wallpaper --preset caos          # fragmented
+rfim-wallpaper --preset fumo --disorder 0.5 --sweeps 1000   # override anything
 ```
 
-Any flag overrides the preset: `--preset fumo --disorder 0.5 --sweeps 1000`.
-
-## Reproducibility
-
-Same seed → same image, even on GPU: the quenched field and grain are generated
-deterministically on the CPU, and the GPU only runs deterministic math.
-
-```bash
-rfim-wallpaper --seed 42 --resolution fhd --out a.png
-rfim-wallpaper --seed 42 --resolution fhd --out b.png
-cmp a.png b.png                        # identical
-```
-
-## CLI reference
+## CLI
 
 ```
---resolution {hd,fhd,qhd,uhd,native}   output resolution (1 spin = 1 px)
+--resolution {hd,fhd,qhd,uhd,native}   output size (1 spin = 1 px)
 --width / --height                     free-form size
 --style {texture,material}             rendering style
 --mode {thermal,avalanche}             dynamics
@@ -149,12 +141,11 @@ cmp a.png b.png                        # identical
 --list-colors · --list-presets
 ```
 
-## Why it's fast
+## Reproducibility
 
-The whole pipeline runs as GPU tensors: quenched-field generation, the
-nearest-neighbour sums (`torch.roll`), the zero-T front relaxation and the
-Metropolis sweeps, the domain-wall extraction, and the Gaussian blur. A
-1920×1080 simulation thermalizes in a few seconds on an RTX 3060.
+The quenched field and grain are generated deterministically on the CPU, and the
+GPU only runs deterministic math, so the same seed gives the same image — even
+across GPU runs.
 
 ## License
 
