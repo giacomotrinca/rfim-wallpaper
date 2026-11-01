@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rfim-wallpaper"
+version = "1.0.0"
+description = "GPU-accelerated Random Field Ising Model wallpapers: avalanches, crackling and critical phenomena rendered as art."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Giacomo Trinca" }]
+keywords = [
+    "ising",
+    "random-field-ising-model",
+    "statistical-mechanics",
+    "critical-phenomena",
+    "disordered-systems",
+    "avalanches",
+    "pytorch",
+    "cuda",
+    "wallpaper",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Multimedia :: Graphics",
+]
+dependencies = [
+    "torch>=2.0",
+    "pillow>=9.0",
+    "numpy>=1.24",
+]
+
+[project.scripts]
+rfim-wallpaper = "rfim_wallpaper.cli:main"
+
+[tool.setuptools]
+packages = ["rfim_wallpaper"]
+
+[tool.setuptools.package-data]
+rfim_wallpaper = ["*.toml"]

@@ -1,0 +1,111 @@
+# ============================================================
+#  RFIM Wallpaper — color themes.
+#  Edit this file to add/change themes, then:
+#      rfim-wallpaper --list-colors
+#      rfim-wallpaper --colors NAME[,NAME...]
+#
+#  Roles:
+#    background   = dark base (espresso-like)
+#    surface_dim  = recessed surfaces (used by the "material" style)
+#    accent       = primary voice (domain walls / main texture)
+#    accent_dim   = dimmed accent (used by the "material" style)
+#    accent_hi    = hot-spot highlight (junctions / peaks)
+# ============================================================
+
+[braci]
+background  = "#150C08"
+surface_dim = "#0F0705"
+accent      = "#FF7A2F"
+accent_dim  = "#C2571F"
+accent_hi   = "#FF5233"
+
+[plasma]
+background  = "#0D0514"
+surface_dim = "#08030D"
+accent      = "#D14CFF"
+accent_dim  = "#8A2FBF"
+accent_hi   = "#FF3DA6"
+
+[matrix]
+background  = "#030C06"
+surface_dim = "#020805"
+accent      = "#00FF66"
+accent_dim  = "#00A844"
+accent_hi   = "#B6FF00"
+
+[neon]
+background  = "#04131A"
+surface_dim = "#030D11"
+accent      = "#00E5FF"
+accent_dim  = "#0099CC"
+accent_hi   = "#00FFB0"
+
+[synthwave]
+background  = "#12041F"
+surface_dim = "#0A0213"
+accent      = "#FF2E97"
+accent_dim  = "#C21B7A"
+accent_hi   = "#7B5CFF"
+
+[abyss]
+background  = "#04101F"
+surface_dim = "#020A14"
+accent      = "#1E90FF"
+accent_dim  = "#1260B0"
+accent_hi   = "#7FD4FF"
+
+[blue]
+background  = "#030B1A"
+surface_dim = "#020610"
+accent      = "#2E7DFF"
+accent_dim  = "#1E4FB0"
+accent_hi   = "#7FB0FF"
+
+[lava]
+background  = "#140302"
+surface_dim = "#0C0201"
+accent      = "#FF3B1F"
+accent_dim  = "#C2260F"
+accent_hi   = "#FFB300"
+
+[aurora]
+background  = "#031410"
+surface_dim = "#020C09"
+accent      = "#00D4A0"
+accent_dim  = "#00907A"
+accent_hi   = "#8AFFC0"
+
+[acid]
+background  = "#0A0F02"
+surface_dim = "#060A01"
+accent      = "#AFFF00"
+accent_dim  = "#6FAF00"
+accent_hi   = "#E6FF33"
+
+[lime]
+background  = "#070D00"
+surface_dim = "#040800"
+accent      = "#8DFF00"
+accent_dim  = "#57A300"
+accent_hi   = "#C6FF4D"
+
+[cobalt]
+background  = "#040A18"
+surface_dim = "#020610"
+accent      = "#3B6BFF"
+accent_dim  = "#2447B0"
+accent_hi   = "#9CC0FF"
+
+[solar]
+background  = "#120D02"
+surface_dim = "#0B0701"
+accent      = "#FFB400"
+accent_dim  = "#C28500"
+accent_hi   = "#FFE066"
+
+[graphite]
+background  = "#0F0F12"
+surface_dim = "#08080A"
+accent      = "#D0D0D8"
+accent_dim  = "#8A8A94"
+accent_hi   = "#FFFFFF"
