@@ -16,8 +16,8 @@ __        ___    _     _     ____   _    ____  _____ ____
 
 **Statistical mechanics as desktop art.** A GPU-accelerated
 [Random Field Ising Model](https://en.wikipedia.org/wiki/Random_field_Ising_model)
-that turns quenched disorder, Barkhausen avalanches and critical phenomena into
-fractal wallpapers — one spin per pixel, at native resolution.
+that turns quenched disorder, Barkhausen avalanches [5, 7] and critical
+phenomena into fractal wallpapers — one spin per pixel, at native resolution.
 
 ```
 H = -J Σ s_i s_j  -  Σ h_i s_i  -  H_ext Σ s_i ,     h_i ~ N(0, Δ)
@@ -41,8 +41,8 @@ H = -J Σ s_i s_j  -  Σ h_i s_i  -  H_ext Σ s_i ,     h_i ~ N(0, Δ)
 
 | mode | physics | knobs |
 |------|---------|-------|
-| `avalanche` | **T = 0** field ramp → Barkhausen crackling. Spins start all-down and `H_ext` is ramped; each step relaxes to the unique ground state (Middleton *no-passing* theorem). The bursts of flips are the avalanches. | `--disorder`, `--ramp-steps`, `--target-m` |
-| `thermal` | **finite T** Metropolis Monte Carlo, vectorized on the checkerboard. `Δ = 0`, `T = T_c ≈ 2.269` reproduces the clean 2D Ising critical point; `Δ > 0` pins and roughens the walls (Imry–Ma disorder in `d = 2`). | `--temperature`, `--disorder`, `--field`, `--sweeps` |
+| `avalanche` | **T = 0** field ramp → Barkhausen crackling. Spins start all-down and `H_ext` is ramped; each step relaxes to the unique ground state (Middleton *no-passing* theorem [4]). The bursts of flips are the avalanches [5], with a power-law size distribution [6]. | `--disorder`, `--ramp-steps`, `--target-m` |
+| `thermal` | **finite T** Metropolis Monte Carlo, vectorized on the checkerboard. `Δ = 0`, `T = T_c ≈ 2.269` [1] reproduces the clean 2D Ising critical point; `Δ > 0` pins and roughens the walls (Imry–Ma disorder in `d = 2` [2, 3]). | `--temperature`, `--disorder`, `--field`, `--sweeps` |
 
 ## Features
 
@@ -146,6 +146,31 @@ rfim-wallpaper --preset fumo --disorder 0.5 --sweeps 1000   # override anything
 The quenched field and grain are generated deterministically on the CPU, and the
 GPU only runs deterministic math, so the same seed gives the same image — even
 across GPU runs.
+
+## References
+
+1. L. Onsager, "Crystal statistics. I. A two-dimensional model with an
+   order-disorder transition," *Phys. Rev.* **65**, 117 (1944).
+   [DOI](https://doi.org/10.1103/PhysRev.65.117)
+2. Y. Imry and S.-k. Ma, "Random-field instability of the ordered state of
+   continuous symmetry," *Phys. Rev. Lett.* **35**, 1399 (1975).
+   [DOI](https://doi.org/10.1103/PhysRevLett.35.1399)
+3. M. Aizenman and J. Wehr, "Rounding of first-order phase transitions in
+   systems with quenched disorder," *Phys. Rev. Lett.* **62**, 2503 (1989).
+   [DOI](https://doi.org/10.1103/PhysRevLett.62.2503)
+4. A. A. Middleton, "Asymptotic uniqueness of the sliding state for
+   charge-density waves," *Phys. Rev. Lett.* **68**, 670 (1992).
+   [DOI](https://doi.org/10.1103/PhysRevLett.68.670)
+5. J. P. Sethna, K. Dahmen, S. Kartha, J. A. Krumhansl, B. W. Roberts, and
+   J. D. Shore, "Hysteresis and hierarchies: Dynamics of disorder-driven
+   first-order phase transformations," *Phys. Rev. Lett.* **70**, 3347 (1993).
+   [DOI](https://doi.org/10.1103/PhysRevLett.70.3347)
+6. O. Perković, K. Dahmen, and J. P. Sethna, "Avalanches, Barkhausen noise,
+   and plain old criticality," *Phys. Rev. Lett.* **75**, 4528 (1995).
+   [DOI](https://doi.org/10.1103/PhysRevLett.75.4528)
+7. J. P. Sethna, K. A. Dahmen, and C. R. Myers, "Crackling noise," *Nature*
+   **410**, 242 (2001).
+   [DOI](https://doi.org/10.1038/35065675)
 
 ## License
 
