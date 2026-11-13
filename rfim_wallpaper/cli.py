@@ -11,7 +11,7 @@ import numpy as np
 import torch
 from PIL import Image
 
-from . import colors, model, presets, render
+from . import __version__, colors, model, presets, render
 
 RESOLUTIONS = {
     "hd": (1280, 720),
@@ -78,6 +78,7 @@ def main(argv: list[str] | None = None) -> int:
         prog="rfim-wallpaper",
         description="RFIM Wallpaper — GPU-accelerated Random Field Ising Model art.",
     )
+    ap.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     ap.add_argument("--preset", type=str, default=None, help="simulation preset from presets.toml")
     ap.add_argument("--list-presets", action="store_true", help="list presets and exit")
     ap.add_argument("--colors", type=str, default="braci", help="color theme(s), comma-separated (e.g. 'blue' or 'blue,lime')")

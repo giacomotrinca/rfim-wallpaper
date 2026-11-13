@@ -1,0 +1,31 @@
+name: build
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build-cpu:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyTorch (CPU)
+        run: pip install --index-url "https://download.pytorch.org/whl/cpu" torch
+
+      - name: Install build dependencies
+        run: pip install "numpy>=1.24" "pillow>=9.0" "pyinstaller>=6.10"
+
+      - name: Build standalone binary
+        run: pyinstaller rfim-wallpaper.spec
+
+      - name: Smoke test
+        run: |
+          dist/rfim-wallpaper --version
+          dist/rfim-wallpaper --cpu --resolution hd --sweeps 10 --seed 1 --out /tmp/rfim-test.png
+          test -s /tmp/rfim-test.png

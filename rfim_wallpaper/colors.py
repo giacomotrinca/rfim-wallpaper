@@ -7,13 +7,13 @@ are blended across the image by a smooth spatial field ("zones" of each color).
 from __future__ import annotations
 
 import tomllib
-from pathlib import Path
 
 import torch
 import torch.nn.functional as F
 
-HERE = Path(__file__).resolve().parent
-COLORS_FILE = HERE / "colors.toml"
+from ._paths import data_dir
+
+COLORS_FILE = data_dir() / "colors.toml"
 
 MIX_MODES = ("clouds", "gradient", "radial", "angular", "zones")
 ROLES = ("background", "accent", "accent_hi")

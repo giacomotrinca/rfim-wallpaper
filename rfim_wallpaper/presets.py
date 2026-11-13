@@ -6,10 +6,10 @@ recipes (e.g. ``--preset crackle``) and override any single value on the CLI.
 from __future__ import annotations
 
 import tomllib
-from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-PRESETS_FILE = HERE / "presets.toml"
+from ._paths import data_dir
+
+PRESETS_FILE = data_dir() / "presets.toml"
 
 DEFAULT_PRESET = "fumo"
 

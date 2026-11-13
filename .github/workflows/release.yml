@@ -1,0 +1,91 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: build ${{ matrix.suffix }}
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - suffix: x86_64-cpu
+            runs-on: ubuntu-22.04
+            torch: cpu
+          - suffix: x86_64-cuda12
+            runs-on: ubuntu-22.04
+            torch: cu126
+          - suffix: aarch64-cpu
+            runs-on: ubuntu-24.04-arm
+            torch: cpu
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyTorch (${{ matrix.torch }})
+        run: pip install --index-url "https://download.pytorch.org/whl/${{ matrix.torch }}" torch
+
+      - name: Install build dependencies
+        run: pip install "numpy>=1.24" "pillow>=9.0" "pyinstaller>=6.10"
+
+      - name: Build standalone binary
+        run: pyinstaller rfim-wallpaper.spec
+
+      - name: Compute version
+        run: echo "VER=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
+
+      - name: Rename binary
+        run: mv dist/rfim-wallpaper "dist/rfim-wallpaper-${VER}-${{ matrix.suffix }}"
+
+      - name: Smoke test
+        run: |
+          BIN="dist/rfim-wallpaper-${VER}-${{ matrix.suffix }}"
+          "$BIN" --version
+          "$BIN" --list-colors
+          "$BIN" --list-presets
+          "$BIN" --cpu --resolution hd --sweeps 10 --seed 1 --out /tmp/rfim-test.png
+          test -s /tmp/rfim-test.png
+
+      # GitHub caps release assets at 2 GiB; the CUDA binary (~3.5 GB) is split
+      # into <2 GB parts and reassembled with `cat` (see README).
+      - name: Split oversized binary (CUDA)
+        if: matrix.suffix == 'x86_64-cuda12'
+        run: |
+          BIN="dist/rfim-wallpaper-${VER}-${{ matrix.suffix }}"
+          split -b 1900M -d "$BIN" "$BIN.part"
+          rm "$BIN"
+          ls -la dist/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rfim-wallpaper-${{ matrix.suffix }}
+          path: dist/rfim-wallpaper-*
+
+  release:
+    name: create release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Checksums
+        run: (cd dist && sha256sum * > SHA256SUMS)
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true

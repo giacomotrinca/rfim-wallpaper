@@ -68,6 +68,32 @@ Verify the GPU:
 python -c "import torch; print(torch.cuda.is_available())"   # True
 ```
 
+## Download (prebuilt binaries)
+
+No Python required — grab a standalone binary from
+[GitHub Releases](https://github.com/giacomotrinca/rfim-wallpaper/releases):
+
+| artifact | target |
+|----------|--------|
+| `rfim-wallpaper-<ver>-x86_64-cpu`    | x86_64 Linux, CPU only (~300 MB) |
+| `rfim-wallpaper-<ver>-x86_64-cuda12` | x86_64 Linux + NVIDIA GPU (driver required, 2 parts) |
+| `rfim-wallpaper-<ver>-aarch64-cpu`   | 64-bit ARM Linux, CPU only |
+
+```bash
+chmod +x rfim-wallpaper-*-x86_64-cpu
+./rfim-wallpaper-*-x86_64-cpu --preset pulito --resolution qhd
+```
+
+The CUDA binary bundles the CUDA runtime but still needs the NVIDIA driver
+(`libcuda.so.1`) on the target; on a machine without a GPU it falls back to CPU.
+It is ~3.5 GB, so it ships split into `<2 GB` parts (GitHub caps release assets
+at 2 GiB). Reassemble before running:
+
+```bash
+cat rfim-wallpaper-<ver>-x86_64-cuda12.part* > rfim-wallpaper-cuda12
+chmod +x rfim-wallpaper-cuda12
+```
+
 ## Quickstart
 
 ```bash
