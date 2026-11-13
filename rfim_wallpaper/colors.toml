@@ -109,3 +109,24 @@ surface_dim = "#08080A"
 accent      = "#D0D0D8"
 accent_dim  = "#8A8A94"
 accent_hi   = "#FFFFFF"
+
+[red]
+background  = "#0B0B10"
+surface_dim = "#07070C"
+accent      = "#FF3B5C"
+accent_dim  = "#B81E3E"
+accent_hi   = "#FF7A9C"
+
+[cyan]
+background  = "#0B0B10"
+surface_dim = "#07070C"
+accent      = "#2DE1FF"
+accent_dim  = "#1596C0"
+accent_hi   = "#A8F0FF"
+
+[magenta]
+background  = "#0B0B10"
+surface_dim = "#07070C"
+accent      = "#FF2E97"
+accent_dim  = "#C21B7A"
+accent_hi   = "#FF7AC0"
